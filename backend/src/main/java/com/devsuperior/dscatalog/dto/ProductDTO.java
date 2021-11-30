@@ -27,7 +27,7 @@ public class ProductDTO implements Serializable{
 	@NotBlank(message = "Campo Obrigatorio")
 	private String description;
 	
-	@Positive(message = "Preco deve ser uma valor positivo")
+	@Positive(message = "Preco deve ser um valor positivo")
 	private Double price;
 	private String imgUrl;
 	
