@@ -8,6 +8,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +18,14 @@ import javax.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -65,12 +68,14 @@ public class ProductServiceTests {
 		page = new PageImpl<>(List.of(product));
 		productDto = Factory.createProductDTO();
 		
-		when(repository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(page);
+		when(repository.findAll((Pageable)any())).thenReturn(page);
 		
-		when(repository.save(ArgumentMatchers.any())).thenReturn(product);
+		when(repository.save(any())).thenReturn(product);
 		
 		when(repository.findById(existingId)).thenReturn(Optional.of(product));
 		when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+		
+		when(repository.find(any(), any(), any())).thenReturn(page);
 		
 		when(repository.getOne(existingId)).thenReturn(product);
 		when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -116,20 +121,17 @@ public class ProductServiceTests {
 		assertNotNull(result);
 		
 	}
-	/*
+	
 	@Test
 	public void findAllPagedShouldReturnPage() {
 		
 		Pageable pageable = PageRequest.of(0, 10);
 		
-		//Page<ProductDTO> result = service.findAllPaged(pageable);
 		Page<ProductDTO> result = service.findAllPaged(0L, "", pageable);
 
 		assertNotNull(result);
-		verify(repository).findAll(pageable);
 		
-		
-	}*/
+	}
 	
 	@Test
 	public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {

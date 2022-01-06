@@ -1,6 +1,9 @@
 package com.devsuperior.dscatalog.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.transaction.Transactional;
 
@@ -9,7 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundExeception;
 
@@ -51,12 +58,11 @@ public class ProductServiceIT {
 		});
 	}
 	
-	/*
+	
 	@Test
 	public void findAllPagedShouldReturnPageWhenPage0Size10(){
 		PageRequest pageRequest = PageRequest.of(0, 10);
 		
-		//Page<ProductDTO> result =  service.findAllPaged(pageRequest);
 		Page<ProductDTO> result = service.findAllPaged(0L, "", pageRequest);
 		
 		assertFalse(result.isEmpty());
@@ -70,7 +76,6 @@ public class ProductServiceIT {
 	public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExist(){
 		PageRequest pageRequest = PageRequest.of(50, 10);
 		
-		//Page<ProductDTO> result =  service.findAllPaged(pageRequest);
 		Page<ProductDTO> result = service.findAllPaged(0L, "", pageRequest);
 		
 		assertTrue(result.isEmpty());
@@ -81,7 +86,6 @@ public class ProductServiceIT {
 	public void findAllPagedShouldReturnSortedPageWhenSortByName(){
 		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
 		
-		//Page<ProductDTO> result =  service.findAllPaged(pageRequest);
 		Page<ProductDTO> result = service.findAllPaged(0L, "", pageRequest);
 		
 		assertFalse(result.isEmpty());
@@ -89,7 +93,7 @@ public class ProductServiceIT {
 		assertEquals("PC Gamer", result.getContent().get(1).getName());
 		assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
 		
-	}*/
+	}
 	
 
 }
